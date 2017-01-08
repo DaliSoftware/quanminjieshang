@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.nateiot</groupId>
-	<artifactId>quanmingJieshang</artifactId>
+	<artifactId>quanminJieshang</artifactId>
 	<version>SNAPSHOT-1.0.0</version>
 	<packaging>war</packaging>
-	<name>Gdgxwl QuanmingJieshang</name>
+	<name>Gdgxwl QuanminJieshang</name>
 	<description>互联社区</description>
 	
 	<properties>
@@ -14,7 +14,7 @@
 
 	
 	<build>
-		<finalName>quanmingJieshang</finalName>
+		<finalName>quanminJieshang</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -54,7 +54,7 @@
 				<configuration>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
 					<webApp>
-						<contextPath>/quanmingJieshang</contextPath>
+						<contextPath>/quanminJieshang</contextPath>
 					</webApp>
 				</configuration>
 			</plugin>
