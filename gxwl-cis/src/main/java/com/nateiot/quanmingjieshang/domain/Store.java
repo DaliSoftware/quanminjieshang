@@ -31,6 +31,13 @@ public class Store extends BaseEntity{
 	@Column(name = "STORE_NAME")
 	private String storeName;
 	
+	
+	/**
+	 * 店铺名称
+	 */
+	@Column(name = "STORE_XINGZHI")
+	private String storeXingzhi;
+	
 	/**
 	 * 店铺业务范围
 	 */
@@ -130,6 +137,14 @@ public class Store extends BaseEntity{
 
 	public void setStoreName(String storeName) {
 		this.storeName = storeName;
+	}
+
+	public String getStoreXingzhi() {
+		return storeXingzhi;
+	}
+
+	public void setStoreXingzhi(String storeXingzhi) {
+		this.storeXingzhi = storeXingzhi;
 	}
 
 	public String getStoreYewuFanwei() {
