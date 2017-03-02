@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Built-By: 2
+Build-Jdk: 1.7.0_17
+Class-Path: spring-context-3.2.6.RELEASE.jar spring-aop-3.2.6.RELEASE.
+ jar aopalliance-1.0.jar spring-beans-3.2.6.RELEASE.jar spring-core-3.
+ 2.6.RELEASE.jar spring-expression-3.2.6.RELEASE.jar spring-aspects-3.
+ 2.6.RELEASE.jar aspectjweaver-1.7.2.jar spring-context-support-3.2.6.
+ RELEASE.jar spring-webmvc-3.2.6.RELEASE.jar spring-web-3.2.6.RELEASE.
+ jar spring-data-jpa-1.4.3.RELEASE.jar spring-data-commons-1.6.3.RELEA
+ SE.jar spring-orm-3.1.4.RELEASE.jar spring-jdbc-3.1.4.RELEASE.jar spr
+ ing-tx-3.1.4.RELEASE.jar aspectjrt-1.7.2.jar slf4j-api-1.7.1.jar jcl-
+ over-slf4j-1.7.1.jar hibernate-jpa-2.1-api-1.0.0.Final.jar mybatis-3.
+ 2.6.jar mybatis-spring-1.2.2.jar commons-lang3-3.1.jar commons-collec
+ tions-3.2.1.jar joda-time-2.3.jar jstl-1.2.jar mysql-connector-java-5
+ .1.26.jar h2-1.3.175.jar slf4j-log4j12-1.7.5.jar log4j-1.2.17.jar hib
+ ernate-entitymanager-4.2.6.Final.jar jboss-logging-3.1.0.GA.jar dom4j
+ -1.6.1.jar jboss-transaction-api_1.1_spec-1.0.1.Final.jar hibernate-j
+ pa-2.0-api-1.0.1.Final.jar hibernate-core-4.2.6.Final.jar antlr-2.7.7
+ .jar hibernate-commons-annotations-4.0.2.Final.jar javassist-3.15.0-G
+ A.jar c3p0-0.9.1.2.jar commons-fileupload-1.2.2.jar commons-io-2.4.ja
+ r poi-3.9.jar commons-codec-1.5.jar poi-ooxml-3.9.jar poi-ooxml-schem
+ as-3.9.jar xmlbeans-2.3.0.jar stax-api-1.0.1.jar jackson-mapper-asl-1
+ .9.13.jar jackson-core-asl-1.9.13.jar gson-2.2.4.jar shiro-spring-1.2
+ .2.jar shiro-core-1.2.2.jar commons-beanutils-1.8.3.jar shiro-web-1.2
+ .2.jar shiro-ehcache-1.2.2.jar ehcache-core-2.5.0.jar quartz-2.2.1.ja
+ r quartz-jobs-2.2.1.jar mail-1.4.1.jar activation-1.1.jar freemarker-
+ 2.3.20.jar httpclient-4.5.jar httpcore-4.4.1.jar commons-logging-1.2.
+ jar httpmime-4.5.jar jaxen-1.1.6.jar netty-all-4.0.23.Final.jar xstre
+ am-1.4.7.jar xmlpull-1.1.3.1.jar xpp3_min-1.1.4c.jar jsoup-1.9.2.jar
+Created-By: Maven Integration for Eclipse
+
