@@ -65,8 +65,8 @@
 	
 	<dependencies>
 	    <dependency>
-		  <groupId>com.nateiot</groupId>
-		  <artifactId>work</artifactId>
+		  <groupId>com.nateiot.gxwl</groupId>
+		  <artifactId>gxwl-work</artifactId>
 		  <version>1.0</version>
 		</dependency>
 	    

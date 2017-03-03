@@ -4,8 +4,11 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="gxwl-work-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/gxwl-work/gxwl-work">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/nateiot-base/target/classes"/>
         <property name="component.exclusion.patterns" value="WEB-INF/web.xml"/>
-        <property name="context-root" value="quanmingJieshang"/>
+        <property name="context-root" value="quanminJieshang"/>
     </wb-module>
 </project-modules>
