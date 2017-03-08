@@ -137,3 +137,33 @@ CREATE TABLE `xiaoshou_celve` (
 -- ----------------------------
 -- Records of xiaoshou_celve
 -- ----------------------------
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `register_record`
+-- ----------------------------
+DROP TABLE IF EXISTS `register_record`;
+CREATE TABLE `register_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `register_date` datetime DEFAULT NULL COMMENT '注册日期',
+  `remote_ip` varchar(32) DEFAULT NULL COMMENT '注册用户的设备的ip',
+  `register_phone` varchar(32) DEFAULT NULL COMMENT '被验证的手机号',
+  `phone_error_count` int(2) DEFAULT NULL COMMENT '手机验证错误次数',
+  `phone_verify_result` int(1) DEFAULT NULL COMMENT '手机验证结果',
+  `image_value` varchar(16) DEFAULT NULL COMMENT '图像验证码对应的验证码',
+  `image_verify_result` int(1) DEFAULT NULL COMMENT '图像验证码验证结果',
+  `image_error_count` int(2) DEFAULT NULL COMMENT '图像验证码错误次数',
+  `create_by` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `last_update_by` int(11) DEFAULT NULL,
+  `last_update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of register_record
+-- ----------------------------
+
