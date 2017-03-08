@@ -10,6 +10,7 @@ import java.net.URLConnection;
 import org.apache.http.client.HttpClient;
 import org.junit.Test;
 
+import com.nateiot.base.service.GxwlSmsService;
 import com.nateiot.quanmingjieshang.common.BaseTest;
 import com.nateiot.quanmingjieshang.domain.Store;
 import com.nateiot.quanmingjieshang.service.StoreService;
@@ -68,11 +69,16 @@ public class TestStoreController extends BaseTest{
 	
 	
 	
-	@Test
 	public void testSave(){
 		Store store = new Store();
 		store.setStoreName("宝树农副");
 		StoreService service = getBean(StoreService.class);
 		service.doSave(store);
+	}
+	
+	@Test
+	public void sendRegisterSecurityCode(){
+		GxwlSmsService smsService = getBean(GxwlSmsService.class);
+		//smsService.sendRegisterSecurityCode();
 	}
 }

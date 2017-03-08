@@ -10,6 +10,9 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <listener>  
+    <listener-class>com.nateiot.base.common.MyHttpSessionListener</listener-class>  
+  </listener>
   
   <servlet>
     <servlet-name>springServlet</servlet-name>

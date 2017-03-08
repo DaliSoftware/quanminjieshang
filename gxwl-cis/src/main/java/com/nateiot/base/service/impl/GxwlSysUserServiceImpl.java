@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -14,6 +17,8 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.nateiot.base.common.SessionUtil;
 import com.nateiot.base.domain.GxwlSysUser;
@@ -252,6 +257,17 @@ public class GxwlSysUserServiceImpl extends
 			setResultStatus(-1, "获取数据时系统出错: " + e.getMessage());
 		}
 		return resultMap;
+	}
+
+	//TODO 注册成功  删除ServletContext中的record
+	//TODO 创建一个定时器  在凌晨4点删除ServletContext中的没用的record
+	@Override
+	public Map<String, Object> saveNewAccount(HttpServletRequest req,
+			GxwlSysUser user) {
+		WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
+		ServletContext servletContext = context.getServletContext();
+		
+		return null;
 	}
 	
 }

@@ -3,6 +3,8 @@ package com.nateiot.base.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.nateiot.base.domain.GxwlSysUser;
@@ -87,5 +89,7 @@ public interface GxwlSysUserService extends
 	 * @return
 	 */
 	public  Map<String, Object>  getGxwlSysUserRoleByUserId(Integer userId);
+	
+	public Map<String, Object> saveNewAccount(HttpServletRequest req, GxwlSysUser user);
 	
 }

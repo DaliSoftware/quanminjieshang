@@ -164,4 +164,9 @@
 		</property>
 	</bean> 
 
+	<bean id="delRecordTask" class="com.nateiot.base.common.DeleteContextRecordTask"/>
+	<task:scheduled-tasks>
+        <task:scheduled ref="delRecordTask" method="deleteContextRecord" cron="0 0/1 * * * ?"/>
+    </task:scheduled-tasks>
+	
 </beans>

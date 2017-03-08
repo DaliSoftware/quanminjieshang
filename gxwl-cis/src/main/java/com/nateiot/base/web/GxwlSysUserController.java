@@ -193,5 +193,5 @@ public class GxwlSysUserController extends ExcelController {
 	public Map<String, Object> getGxwlSysUserRoleByUserId(@PathVariable Integer userId) {
 		return userService.getGxwlSysUserRoleByUserId(userId);
 	}
-	
+
 }
