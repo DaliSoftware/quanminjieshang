@@ -1,7 +1,9 @@
 package com.nateiot.base.service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 public interface GxwlSmsService {
-	public void sendRegisterSecurityCode(HttpServletRequest req, String phoneNumber);
+	public Map<String, Object> sendRegisterSecurityCode(HttpServletRequest req, String phoneNumber);
 }

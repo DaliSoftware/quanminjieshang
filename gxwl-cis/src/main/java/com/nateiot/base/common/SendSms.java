@@ -19,10 +19,10 @@ public class SendSms {
 	private static String Url = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
 	
 	public static void sendRegisterSecurityCode(RegisterRecord record) {
-		//有模板格式的限定  乱改可能导致发送失败
 		int mobile_code = (int)((Math.random()*9+1)*100000);
 		record.setPhoneVerifyCode(mobile_code);
 		
+		//有模板格式的限定  乱改可能导致发送失败
 	    String content = new String("您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。");
 		HttpClient client = HttpClients.createDefault(); 
 		HttpPost post = new HttpPost(Url);
@@ -37,11 +37,25 @@ public class SendSms {
     	try {
     		UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(params, "UTF-8");
 			post.setEntity(formEntity);
-			HttpResponse response = client.execute(post);
+			
+			//TODO 完善后再发送真正的短信验证
+			/*HttpResponse response = client.execute(post);
+			System.out.println("发送短信验证码的情况： "+response.getStatusLine().getStatusCode());
 			if(response.getStatusLine().getStatusCode() == 200){
-				record.setCreateTime(new Date());
+				record.setPhoneVerifyCode(mobile_code);
+			}else{
+				record.setPhoneVerifyCode(null);
+			}*/
+			
+			{//TODO 用正式环境发送短信验证码时删除此块代码
+				record.setPhoneVerifyCode(8888);
 			}
-			System.out.println(response.getStatusLine().getStatusCode());
+			
+			record.setCreateTime(new Date());
+			
+			//手机验证码发送次数加一
+			record.setPhoneErrorCount(record.getPhoneErrorCount() + 1);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

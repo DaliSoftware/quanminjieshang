@@ -1,9 +1,12 @@
 package com.nateiot.base.web;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.nateiot.base.common.NetworkUtil;
+import com.nateiot.base.common.VerifyCodeUtils;
 import com.nateiot.base.domain.RegisterRecord;
 import com.nateiot.base.service.GxwlSmsService;
 
@@ -29,8 +33,9 @@ public class GxwlSendSmsController {
 	 * @param phoneNumber 指定的手机号码
 	 */
 	@RequestMapping("/sendRegisterSecurityCode/{phoneNumber}")
-	public void sendRegisterSecurityCode(HttpServletRequest req, @PathVariable String phoneNumber){
-		smsService.sendRegisterSecurityCode(req, phoneNumber);
+	@ResponseBody
+	public Map<String, Object> sendRegisterSecurityCode(HttpServletRequest req, @PathVariable String phoneNumber){
+		return smsService.sendRegisterSecurityCode(req, phoneNumber);
 	}
 	
 	
@@ -45,7 +50,7 @@ public class GxwlSendSmsController {
         RegisterRecord record = getRegisterRecord(req);
         if(record != null){
         	
-        	if(record.getPhoneVerifyCode() != null && record.getPhoneVerifyResult() == 0){
+        	if(record.getPhoneVerifyCode() != null){
         		
         		//判断验证码是否超时
         		Calendar calendar = Calendar.getInstance();
@@ -77,24 +82,37 @@ public class GxwlSendSmsController {
 	 * @return
 	 */
 	@RequestMapping("/updateImageVerify")
-	@ResponseBody
-	public String updateImageVerify(HttpServletRequest req) {
+	public void updateImageVerify(HttpServletRequest req, HttpServletResponse response) {
+        response.setHeader("Pragma", "No-cache");  
+        response.setHeader("Cache-Control", "no-cache");  
+        response.setDateHeader("Expires", 0);  
+        response.setContentType("image/jpeg"); 
         RegisterRecord record = getRegisterRecord(req);
+        
+        // 生成随机字串  
+        String verifyCode = VerifyCodeUtils.generateVerifyCode(4).toLowerCase();  
         if(record == null){
         	record = new RegisterRecord();
-        	
-        	//TODO 假设图片验证码对应的值为9999
-        	record.setImageValue("9999");
-    		record.setImageVerifyResult(0);
     		record.setImageErrorCount(0);
-    		record.setPhoneErrorCount(0);
-        }else{
-        	record.setImageValue(Integer.parseInt(record.getImageValue()) + "1");
     		record.setImageVerifyResult(0);
-    		record.setImageErrorCount(record.getImageErrorCount() + 1);
+    		record.setPhoneErrorCount(0);
         }
+    	record.setImageValue(verifyCode);
         resetRecord(req, record);
-		return "/resources/images/logo_48.png";
+        
+        // 存入会话session  
+        int w = 100, h = 30;
+        if(req.getParameter("width") != null){
+        	w = Integer.parseInt(req.getParameter("width").toString());
+        }
+        if(req.getParameter("height") != null){
+        	h = Integer.parseInt(req.getParameter("height").toString());
+        }
+        try {
+			VerifyCodeUtils.outputImage(w, h, response.getOutputStream(), verifyCode);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}  
 	}
 	
 	/**
@@ -103,7 +121,7 @@ public class GxwlSendSmsController {
 	 * @param code 用户输入的验证码
 	 * @return
 	 */
-	@RequestMapping("/updateImageVerify/{code}")
+	@RequestMapping("/checkoutImageVerify/{code}")
 	@ResponseBody
 	public Integer checkoutImageVerify(HttpServletRequest req, @PathVariable String code) {
         RegisterRecord record = getRegisterRecord(req);
@@ -115,6 +133,8 @@ public class GxwlSendSmsController {
         		resetRecord(req, record);
         		return 1;
         	}else {
+        		record.setImageErrorCount(record.getImageErrorCount() + 1);
+        		resetRecord(req, record);
         		return 0;
         	}
         }
