@@ -46,34 +46,8 @@ public class GxwlSendSmsController {
 	 */
 	@RequestMapping("/checkoutPhoneVerifyCode/{verifyCode}")
 	@ResponseBody
-	public Integer checkoutPhoneVerifyCode(HttpServletRequest req, @PathVariable String verifyCode) {
-        RegisterRecord record = getRegisterRecord(req);
-        if(record != null){
-        	
-        	if(record.getPhoneVerifyCode() != null){
-        		
-        		//判断验证码是否超时
-        		Calendar calendar = Calendar.getInstance();
-        		Long endTime = calendar.getTimeInMillis();
-        		calendar.setTime(record.getCreateTime());
-        		Long beginTime = calendar.getTimeInMillis();
-        		if(((endTime - beginTime) / 1000)  > 60){
-        			return 0;
-        		}
-        		
-        		//判断输入的验证码是否正确
-        		if(verifyCode.equals(record.getPhoneVerifyCode().toString())){
-        			record.setPhoneVerifyResult(1);
-        			resetRecord(req, record);
-        			return 1; 
-        		}else{
-        			record.setPhoneVerifyResult(0);
-        			resetRecord(req, record);
-        			return 0;
-        		}
-        	}
-        }
-		return 0;
+	public Map<String, Object> checkoutPhoneVerifyCode(HttpServletRequest req, @PathVariable String verifyCode) {
+        return smsService.checkoutPhoneVerifyCode(req, verifyCode);
 	}
 	
 	/**

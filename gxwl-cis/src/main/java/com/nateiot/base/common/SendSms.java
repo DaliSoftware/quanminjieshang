@@ -52,10 +52,6 @@ public class SendSms {
 			}
 			
 			record.setCreateTime(new Date());
-			
-			//手机验证码发送次数加一
-			record.setPhoneErrorCount(record.getPhoneErrorCount() + 1);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

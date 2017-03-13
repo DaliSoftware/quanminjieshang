@@ -202,6 +202,20 @@ public class GxwlSysUserController extends ExcelController {
 	@RequestMapping("/checkphone/{phoneNumber}")
 	@ResponseBody
 	public Map<String, Object> checkPhone(@PathVariable String phoneNumber){
-		return null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(userService.checkPhone(phoneNumber)){
+			map.put("code", 0);
+			map.put("message", "手机号已经被使用！");
+		}else{
+			map.put("code", 1);
+			map.put("message", "该手机号可以使用 。");
+		}
+		return map;
+	}
+	
+	@RequestMapping(value = "/saveNewAccount", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> saveNewAccount(HttpServletRequest req, GxwlSysUser user) {
+		return userService.saveNewAccount(req, user);
 	}
 }

@@ -1,6 +1,8 @@
 package com.nateiot.base.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.nateiot.base.common.NetworkUtil;
 import com.nateiot.base.common.SessionUtil;
 import com.nateiot.base.domain.GxwlSysUser;
 import com.nateiot.base.domain.GxwlSysUserRole;
+import com.nateiot.base.domain.RegisterRecord;
 import com.nateiot.base.repository.GxwlSysUserDao;
 import com.nateiot.base.repository.GxwlSysUserRoleDao;
+import com.nateiot.base.service.GxwlSmsService;
 import com.nateiot.base.service.GxwlSysUserService;
 import com.nateiot.core.common.PropertiesUtil;
 import com.nateiot.core.common.security.HashUtil;
@@ -45,6 +50,9 @@ public class GxwlSysUserServiceImpl extends
 
 	@Autowired
 	private GxwlSysUserRoleDao gxwlSysUserRoleDao;
+	
+	@Autowired
+	private GxwlSmsService smsService;
 
 	@Autowired
 	public GxwlSysUserServiceImpl(GxwlSysUserDao gxwlSysUserDao) {
@@ -259,15 +267,101 @@ public class GxwlSysUserServiceImpl extends
 		return resultMap;
 	}
 
-	//TODO 注册成功  删除ServletContext中的record
-	//TODO 创建一个定时器  在凌晨4点删除ServletContext中的没用的record
+	
+	
+	//TODO 创建一个定时器  每隔30分钟删除一次ServletContext中的没用的record
+	
+	//TODO 完善注册成功
 	@Override
-	public Map<String, Object> saveNewAccount(HttpServletRequest req,
-			GxwlSysUser user) {
-		WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
-		ServletContext servletContext = context.getServletContext();
+	@Transactional
+	public Map<String, Object> saveNewAccount(HttpServletRequest req, GxwlSysUser user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		RegisterRecord record = getRegisterRecord(req);
 		
-		return null;
+		//最后校验
+		if(record.getImageVerifyResult() == 0){
+			map.put("code", 0);
+			map.put("name", "imageVerify");
+			map.put("message", "请确保通过图形验证码。。");
+			return map;
+		}
+		
+		if(record.getPhoneVerifyResult() == 0){
+			map.put("code", 0);
+			map.put("name", "mobileno");
+			map.put("message", "您的手机验证码还没验证通过哦。。");
+			return map;
+		}
+		
+		if(user.getUserName() == null){
+			map.put("code", 0);
+			map.put("name", "userName");
+			map.put("message", "用户名还没有输入哦！");
+			return map;
+		}
+		if(user.getUserName() != null && user.getUserName().trim().length() < 6){
+			map.put("code", 0);
+			map.put("name", "userName");
+			map.put("message", "用户名不怎么规范呢！");
+			return map;
+		}
+		
+		if(user.getPassword() == null){
+			map.put("code", 0);
+			map.put("name", "password");
+			map.put("message", "您的密码还没设置哟！");
+			return map;
+		}
+		user.setStatus("enabled");
+		user.setValidDate(new Date());
+		setDefaultPassword(user);
+		//保存
+		gxwlSysUserDao.save(user);
+		
+		//删除ServletContext中的record
+		getServletContext().removeAttribute(getKey(req));
+		map.put("code", 1);
+		map.put("message", "恭喜！注册成功咯 。。");
+		return map;
 	}
 	
+	
+	@Override
+	public boolean checkPhone(String phoneNumber){
+		try {
+			return gxwlSysUserDao.findOneByMobileno(phoneNumber) != null ? true : false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+
+	private ServletContext getServletContext(){
+		return ContextLoader.getCurrentWebApplicationContext().getServletContext();
+	}
+	
+	private RegisterRecord getRegisterRecord(HttpServletRequest req){
+        ServletContext servletContext = getServletContext(); 
+        return (RegisterRecord) servletContext.getAttribute(getKey(req));
+	}
+	
+	/**
+	 * 返回申请用户的唯一标识
+	 * @param req
+	 * @return
+	 */
+	//TODO 得找到一种真的可以确定用户唯一的东西
+	private String getKey(HttpServletRequest req){
+		return NetworkUtil.getIpAddress(req);
+	}
+	
+	/**
+	 * @param req
+	 * @param record
+	 */
+	private void resetRecord(HttpServletRequest req, RegisterRecord record){
+		ServletContext context = getServletContext();
+		context.setAttribute(getKey(req), record);
+	}
 }

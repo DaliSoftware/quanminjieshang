@@ -15,4 +15,6 @@ public interface GxwlSysUserDao extends BaseDao<GxwlSysUser, Integer>,
 	public GxwlSysUser findByUserName(String userName);
 
 	public GxwlSysUser findByUserId(Integer userId);
+	
+	public GxwlSysUser findOneByMobileno(String mobileno);
 }

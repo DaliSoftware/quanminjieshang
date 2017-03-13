@@ -57,7 +57,7 @@ public class RegisterRecord extends BaseEntity{
 	private Integer phoneVerifyCode;
 	
 	/**
-	 * 模块ID
+	 * 手机验证码验证错误次数
 	 */
 	@Column(name = "PHONE_ERROR_COUNT")
 	private Integer phoneErrorCount;

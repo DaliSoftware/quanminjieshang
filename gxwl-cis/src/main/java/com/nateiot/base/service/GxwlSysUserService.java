@@ -91,5 +91,12 @@ public interface GxwlSysUserService extends
 	public  Map<String, Object>  getGxwlSysUserRoleByUserId(Integer userId);
 	
 	public Map<String, Object> saveNewAccount(HttpServletRequest req, GxwlSysUser user);
+
+	/**
+	 * 查看给定的手机号是否已经注册过商户用户
+	 * @param phoneNumber
+	 * @return 返回true表示手机号已经被注册使用，反之
+	 */
+	boolean checkPhone(String phoneNumber);
 	
 }

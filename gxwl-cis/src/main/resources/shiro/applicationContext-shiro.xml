@@ -60,6 +60,7 @@
 				/wx/** = anon
 				/usertest/** = anon
 				/verifyCode/** = anon
+				/user/saveNewAccount = anon
 				/logout = anon
 				/resources/** = anon
 				/doc/downloadFile/**=anon
