@@ -194,4 +194,14 @@ public class GxwlSysUserController extends ExcelController {
 		return userService.getGxwlSysUserRoleByUserId(userId);
 	}
 
+	/**
+	 * TODO 校验手机号是否可以注册新的商户
+	 * @param phoneNumber
+	 * @return
+	 */
+	@RequestMapping("/checkphone/{phoneNumber}")
+	@ResponseBody
+	public Map<String, Object> checkPhone(@PathVariable String phoneNumber){
+		return null;
+	}
 }
