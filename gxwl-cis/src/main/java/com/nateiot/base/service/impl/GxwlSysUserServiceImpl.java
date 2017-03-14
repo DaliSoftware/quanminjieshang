@@ -314,7 +314,8 @@ public class GxwlSysUserServiceImpl extends
 		}
 		user.setStatus("enabled");
 		user.setValidDate(new Date());
-		setDefaultPassword(user);
+		//user.setSalt(new SecureRandomNumberGenerator().nextBytes().toHex());
+		//setDefaultPassword(user);
 		//保存
 		gxwlSysUserDao.save(user);
 		

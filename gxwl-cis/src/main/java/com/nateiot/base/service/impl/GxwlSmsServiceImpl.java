@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -112,6 +113,27 @@ public class GxwlSmsServiceImpl implements GxwlSmsService{
         }
 		return map;
 	}
+	
+	
+	@Override
+	public Integer checkoutImageVerify(HttpServletRequest req, @PathVariable String code) {
+        RegisterRecord record = getRegisterRecord(req);
+        if(record != null){
+        	if(record.getImageValue().equals(code)){
+        		
+        		//验证通过
+        		record.setImageVerifyResult(1);
+        		resetRecord(req, record);
+        		return 1;
+        	}else {
+        		record.setImageErrorCount(record.getImageErrorCount() + 1);
+        		resetRecord(req, record);
+        		return 0;
+        	}
+        }
+        return 0;
+	}
+	
 	
 	
 	

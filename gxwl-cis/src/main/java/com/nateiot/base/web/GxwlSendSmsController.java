@@ -66,10 +66,12 @@ public class GxwlSendSmsController {
         // 生成随机字串  
         String verifyCode = VerifyCodeUtils.generateVerifyCode(4).toLowerCase();  
         if(record == null){
+        	//初始化
         	record = new RegisterRecord();
     		record.setImageErrorCount(0);
     		record.setImageVerifyResult(0);
     		record.setPhoneErrorCount(0);
+    		record.setPhoneVerifyResult(0);
         }
     	record.setImageValue(verifyCode);
         resetRecord(req, record);
@@ -98,21 +100,7 @@ public class GxwlSendSmsController {
 	@RequestMapping("/checkoutImageVerify/{code}")
 	@ResponseBody
 	public Integer checkoutImageVerify(HttpServletRequest req, @PathVariable String code) {
-        RegisterRecord record = getRegisterRecord(req);
-        if(record != null){
-        	if(record.getImageValue().equals(code)){
-        		
-        		//验证通过
-        		record.setImageVerifyResult(1);
-        		resetRecord(req, record);
-        		return 1;
-        	}else {
-        		record.setImageErrorCount(record.getImageErrorCount() + 1);
-        		resetRecord(req, record);
-        		return 0;
-        	}
-        }
-        return 0;
+        return smsService.checkoutImageVerify(req, code);
 	}
 	
 	private ServletContext getServletContext(){

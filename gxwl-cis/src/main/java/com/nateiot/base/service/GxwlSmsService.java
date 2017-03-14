@@ -25,4 +25,6 @@ public interface GxwlSmsService {
 	 * @return 验证结果
 	 */
 	public Map<String, Object> checkoutPhoneVerifyCode(HttpServletRequest req, @PathVariable String verifyCode);
+
+	Integer checkoutImageVerify(HttpServletRequest req, String code);
 }
