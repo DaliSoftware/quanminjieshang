@@ -20,6 +20,7 @@
 </head>
 
 <body>
+<div id="testVue">{{message}}</div>
 <div class="g-layout">	
 	<div class="g-toolbar">
 	    <a id="add" onclick="baseInfo.add();" class="easyui-linkbutton toolbar g-button"><i class="fa fa-plus"></i>新增</a>
@@ -172,6 +173,7 @@
 <script type="text/javascript" src="${ctx}/resources/js/lookup.js"></script>
 <script type="text/javascript" src="${ctx}/resources/js/gxwl.js"></script>
 <script type="text/javascript" src="${ctx}/resources/js/public.js"></script>
+<script src="https://unpkg.com/vue@2.0.0/dist/vue.js"></script>
 
 <script type="text/javascript" >
 var addNewRecord = false; //新增记录？
@@ -205,6 +207,12 @@ $(function (){
 	importDoc.init();
 	setFormItemDisabled(thisUiConfig.baseForm, true, null);
 	document.onkeydown = hotkey; //当onkeydown 事件发生时调用hotkey函数  
+	
+	var vueData = {
+			message:"你好世界"
+		};
+	
+	var v = new Vue({el:'#testVue',data: vueData});
 });
 
 var tabs = {

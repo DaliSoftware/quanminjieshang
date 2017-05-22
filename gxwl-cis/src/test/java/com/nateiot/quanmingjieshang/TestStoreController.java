@@ -68,7 +68,7 @@ public class TestStoreController extends BaseTest{
 	}
 	
 	
-	
+	/*
 	public void testSave(){
 		Store store = new Store();
 		store.setStoreName("宝树农副");
@@ -76,9 +76,9 @@ public class TestStoreController extends BaseTest{
 		service.doSave(store);
 	}
 	
-	@Test
+//	@Test
 	public void sendRegisterSecurityCode(){
 		GxwlSmsService smsService = getBean(GxwlSmsService.class);
 		//smsService.sendRegisterSecurityCode();
-	}
+	}*/
 }

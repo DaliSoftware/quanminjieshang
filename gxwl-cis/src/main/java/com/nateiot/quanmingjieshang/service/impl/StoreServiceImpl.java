@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.nateiot.core.service.impl.BaseServiceImpl;
 import com.nateiot.quanmingjieshang.domain.Store;
+import com.nateiot.quanmingjieshang.repository.Store2Dao;
 import com.nateiot.quanmingjieshang.repository.StoreDao;
 import com.nateiot.quanmingjieshang.service.StoreService;
 import com.nateiot.quanmingjieshang.util.MapUtil;
@@ -18,6 +19,9 @@ public class StoreServiceImpl extends BaseServiceImpl<StoreDao, Store, Long> imp
 	private StoreDao dao;
 	
 	@Autowired
+	private Store2Dao dao2;
+	
+	@Autowired
 	public StoreServiceImpl(StoreDao d) {
 		super(d);
 	}
@@ -27,7 +31,7 @@ public class StoreServiceImpl extends BaseServiceImpl<StoreDao, Store, Long> imp
 		if(fanwei == null){
 			fanwei = DEF_FANWEI;
 		}
-		List<Store> allStore = dao.findAll();
+		List<Store> allStore = dao2.findAll();
 		for(Store store : allStore){
 			if(MapUtil.GetDistance(lon, lat, 
 					Double.parseDouble(store.getStoreLongitude()), 

@@ -33,8 +33,13 @@
 
 	<context:component-scan base-package="com.nateiot.*.service,com.nateiot.*.schedule,com.nateiot.*.handler" />
 	
+	<!-- TODO 这一配置有待研究 -->
 	<bean id="controllerAspect" class="com.nateiot.base.common.ControllerAspect"></bean>
 
+	
+	
+	
+	
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="${c3p0.driverClass}" />
@@ -51,7 +56,11 @@
 
 	<bean id="hibernateJpaVendorAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		
+		<!-- <property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect" /> -->
 		<property name="databasePlatform">
+		    
+		    <!-- 属性的值是调用指定类的方法的返回值    -->
 			<bean factory-method="getDialect"
 				class="com.nateiot.core.common.persistence.HibernateUtil">
 				<constructor-arg ref="dataSource" />
@@ -72,11 +81,6 @@
 <!-- 		<property name="annotationClass" value="com.nateiot.core.repository.mybatis.MyBatisRepository"/> -->
 <!-- 	</bean> -->
 
-	<!-- 文件上传 -->
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	</bean>
-
 	<!-- Jpa Entity Manager 配置 -->
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -91,13 +95,20 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory"/>
 	</bean>
 
-	<bean id="springContextUtil" class="com.nateiot.core.common.SpringContextUtil"></bean>
+	
+	<bean id="auditorAwareImpl" class="com.nateiot.base.common.AuditorAwareImpl" />
+	<jpa:auditing auditor-aware-ref="auditorAwareImpl" />
 
+	<jpa:repositories base-package="com.nateiot.*.repository"
+		entity-manager-factory-ref="entityManagerFactory"
+		transaction-manager-ref="transactionManager" />
+	
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	<task:annotation-driven />
-
-	<bean id="auditorAwareImpl" class="com.nateiot.base.common.AuditorAwareImpl" />
+	
+	
+	<!-- 普通bean注册区 -->
+	<bean id="springContextUtil" class="com.nateiot.core.common.SpringContextUtil"></bean>
 	
 	<bean id="dbUtil" class="com.nateiot.core.repository.DBUtil">
 		<constructor-arg ref="entityManagerFactory" />
@@ -114,8 +125,11 @@
 	<bean id="baseUtil" class="com.nateiot.base.common.BaseUtil">
 	</bean>
 
+	
+	
+	
 	<!-- 微信-智慧社区JDBC -->
-	<bean id="dataSourceCis" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+<!-- 	<bean id="dataSourceCis" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		  destroy-method="close">
 		<property name="driverClass" value="${c3p0.driverClass}" />
 		<property name="jdbcUrl" value="${wx.cis.jdbcUrl}" />
@@ -137,36 +151,39 @@
 		<property name="dataSource" ref="dataSourceCis" />
 	</bean>
 
-	<tx:annotation-driven transaction-manager="cisTxManager" />
-
-	<!-- =================== -->
+	<tx:annotation-driven transaction-manager="cisTxManager" /> -->
 
 
-	<jpa:auditing auditor-aware-ref="auditorAwareImpl" />
-
-	<jpa:repositories base-package="com.nateiot.*.repository"
-		entity-manager-factory-ref="entityManagerFactory"
-		transaction-manager-ref="transactionManager" />
-
-	<bean id="templateEmail" class="com.nateiot.base.common.TemplateUtil">
+	<!-- TODO 这一段是搞什么灰机的 -->
+<!-- 	<bean id="templateEmail" class="com.nateiot.base.common.TemplateUtil">
 		<constructor-arg ref="freeMarkerConfigurer" />
 	</bean> 
 
 	<bean id="freeMarkerConfigurer"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-		<property name="templateLoaderPath" value="/upload/mailtemplates/" /><!--指定模板文件目录 -->
-		<property name="freemarkerSettings"><!-- 设置FreeMarker环境属性 -->
+		<property name="templateLoaderPath" value="/upload/mailtemplates/" />指定模板文件目录
+		<property name="freemarkerSettings">设置FreeMarker环境属性
 			<props>
-				<prop key="template_update_delay">1800</prop><!--刷新模板的周期，单位为秒 -->
-				<prop key="default_encoding">UTF-8</prop><!--模板的编码格式 -->
-				<prop key="locale">zh_CN</prop><!-- 本地化设置 -->
+				<prop key="template_update_delay">1800</prop>刷新模板的周期，单位为秒
+				<prop key="default_encoding">UTF-8</prop>模板的编码格式
+				<prop key="locale">zh_CN</prop>本地化设置
 			</props>
 		</property>
-	</bean> 
+	</bean>  -->
+	
+	
 
-	<bean id="delRecordTask" class="com.nateiot.base.common.DeleteContextRecordTask"/>
+	<!-- 注册了一个定时器 -->
+	<task:annotation-driven />
+<!-- 	<bean id="delRecordTask" class="com.nateiot.base.common.DeleteContextRecordTask"/>
 	<task:scheduled-tasks>
         <task:scheduled ref="delRecordTask" method="deleteContextRecord" cron="0 0/1 * * * ?"/>
-    </task:scheduled-tasks>
+    </task:scheduled-tasks> -->
+	
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+	
 	
 </beans>

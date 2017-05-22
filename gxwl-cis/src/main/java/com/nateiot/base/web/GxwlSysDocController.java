@@ -154,6 +154,9 @@ public class GxwlSysDocController {
 	@RequestMapping(value = "/show/{docId}")
 	@ResponseBody
 	public void showImg(@PathVariable Integer docId,HttpServletRequest req, HttpServletResponse response) {
+        response.setHeader("Pragma", "No-cache");  
+        response.setHeader("Cache-Control", "no-cache");  
+        response.setDateHeader("Expires", 0);  
 		response.setContentType("image/*");
         OutputStream os = null; 
         try {

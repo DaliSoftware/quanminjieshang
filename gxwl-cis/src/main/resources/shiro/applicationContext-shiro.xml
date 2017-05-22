@@ -64,6 +64,7 @@
 				/logout = anon
 				/resources/** = anon
 				/doc/downloadFile/**=anon
+				/doc/upload = anon
 				/eventEnroll/wxsave=anon
 				/** = authc
 			</value>
