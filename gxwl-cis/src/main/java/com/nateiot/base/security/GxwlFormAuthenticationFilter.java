@@ -51,7 +51,9 @@ public class GxwlFormAuthenticationFilter extends FormAuthenticationFilter {
 		else {
 			SecurityUtils.getSubject().logout();
 		}
-		return super.preHandle(request, response);
+		boolean be = super.preHandle(request, response);
+		System.out.println(be);		
+		return be;
 	}
 	
 	// 登录成功
