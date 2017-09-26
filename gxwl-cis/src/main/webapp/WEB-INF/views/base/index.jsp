@@ -42,6 +42,8 @@
 <div class="tailbottom">
 	<input id="versionNumber" type="hidden">
 	${copyright}<a id="downloadApp" href="#">客户端下载</a>
+	<shiro:hasPermission name="USER_LIST"><a>我有USER_LIST权限</a></shiro:hasPermission>
+	<shiro:lacksPermission name="USER_LIST">您没有USER_LIST权限</shiro:lacksPermission>
 </div>
 
 <script type="text/javascript" src="${ctx}/resources/libs/${jqueryEasyui}/jquery.min.js"></script>
